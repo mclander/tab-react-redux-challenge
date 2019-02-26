@@ -1,0 +1,33 @@
+{
+  "name": "lazy-loading-routes",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "es6-enum": "^1.1.0",
+    "google-map-react": "^0.24.0",
+    "install": "^0.12.2",
+    "lodash": "^4.17.11",
+    "marked": "^0.3.9",
+    "npm": "^6.8.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-markdown": "^2.5.0",
+    "react-remarkable": "^1.1.2",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-sortable-hoc": "^1.6.1",
+    "react-tabtab": "^2.0.0",
+    "redux": "^4.0.1",
+    "source-map-explorer": "^1.7.0",
+    "styled-components": "4.0.3"
+  },
+  "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
