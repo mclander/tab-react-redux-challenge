@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {Tabs, DragTabList, DragTab, PanelList, Panel, ExtraButton} from 'react-tabtab';
+import {Tabs, DragTabList, DragTab, PanelList, Panel} from 'react-tabtab';
 // import Plus from 'react-icons/lib/fa/plus';
 //mport {simpleSwitch} from '../../src/helpers/move';
 
 import {arrayMove as simpleSwitch} from 'react-sortable-hoc';
-import {makeData} from './utils';
+import {makeData} from '../reducers/initial-state';
 
 
-export default class Complicated extends Component {
+export default class TabContainer extends Component {
   constructor(props) {
     super(props);
     const tabs = makeData(10, 'Drag');
