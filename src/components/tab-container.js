@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tabs, DragTabList, DragTab, PanelList, Panel} from 'react-tabtab';
+import {Tabs, DragTabList, Tab, DragTab, PanelList, Panel} from 'react-tabtab';
 // import Plus from 'react-icons/lib/fa/plus';
 //mport {simpleSwitch} from '../../src/helpers/move';
 
@@ -60,7 +60,7 @@ export default class TabContainer extends Component {
 
   render() {
     const {tabs, activeIndex, numberOfTabs, showArrow, showModal, showExtra} = this.state;
-    const tabTemplate = [<DragTab key={-1}>Article List</DragTab>];
+    const tabTemplate = [<Tab key={-1}>Article List</Tab>];
     const panelTemplate = [<Panel key={-1}>List:</Panel>];
     tabs.forEach((tab, i) => {
       const closable = tabs.length > 1;
