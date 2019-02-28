@@ -1,7 +1,9 @@
-import Enum from 'es6-enum'
+export const
+    ARTICLE_OPEN = 'ARTICLE_OPEN',
+    ARTICLE_CLOSE = 'ARTICLE_CLOSE',
+    ARTICLE_SWAP = 'ARTICLE_SWAP'
 
-export default Enum(
-    'ARTICLE_OPEN',
-    'ARTICLE_CLOSE',
-    'ARTICLE_SWAP'
-)
+
+export default {
+    ARTICLE_OPEN, ARTICLE_CLOSE, ARTICLE_SWAP
+}

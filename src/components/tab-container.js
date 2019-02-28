@@ -10,6 +10,7 @@ import {makeData} from '../reducers/initial-state';
 export default class TabContainer extends Component {
   constructor(props) {
     super(props);
+    console.warn(props)
     const tabs = makeData(10, 'Drag');
 
     this.state = {

@@ -2,14 +2,11 @@ import { ARTICLE_OPEN, ARTICLE_CLOSE, ARTICLE_SWAP } from '../constants/action-t
 import initialState from './initial-state'
 import * as _ from 'lodash'
 
-
-
 export default function articlesReducer(state = initialState, action) {
-  let newState;
+  let {active, open} = state
 
   switch (action.type) {
     case ARTICLE_OPEN:
-        let {active, open} = state
         // Ищем статью в открытых, проверяем, что статья существует
         if (!~open.findIndex(action.id) && state.indexes[action.id]) {
             open = [...open, action.id]
@@ -24,7 +21,6 @@ export default function articlesReducer(state = initialState, action) {
         return {...state, open, active}
 
     case ARTICLE_CLOSE:
-        let {active, open} = state
         const index = open.findIndex(action.id)
         if (~index) {
             if (active == index + 1) active--
@@ -34,9 +30,8 @@ export default function articlesReducer(state = initialState, action) {
         }
 
         return state
-    case ARTICE_SWAP:
+    case ARTICLE_SWAP:
         const {from, to} = action
-        let {active, open} = state
         // меняем местми вкладки
         open = open.slice()
         let swap = open[from]

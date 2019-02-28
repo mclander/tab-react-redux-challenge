@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    Link
-} from 'react-router-dom'
-
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { Provider } from 'react-redux' 
 
 import './app.css';
 import WorkPlace from './components/work-place'
 import NotFound from './components/not-found'
+import createStore from './store/configure-store'
+const store = createStore()
 
 ///import createBrowserHistory from 'history/createBrowserHistory';
 // import asyncComponent from './AsyncComponent'
@@ -22,6 +19,7 @@ import NotFound from './components/not-found'
 class App extends Component {
     render () {
         return (
+            <Provider store={store}>
             <Router>
                 <div>
                     <section className="content">
@@ -33,6 +31,7 @@ class App extends Component {
                     </section>
                 </div>
             </Router>
+            </Provider>
         )
     }
 }
