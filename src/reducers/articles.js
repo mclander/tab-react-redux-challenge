@@ -1,6 +1,6 @@
 import { ARTICLE_OPEN, ARTICLE_CLOSE, ARTICLE_SWAP } from '../constants/action-types'
 import initialState from './initial-state'
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 
 export default function articlesReducer(state = initialState, action) {
   let {active, open} = state
@@ -23,7 +23,7 @@ export default function articlesReducer(state = initialState, action) {
     case ARTICLE_CLOSE:
         const index = open.findIndex(action.id)
         if (~index) {
-            if (active == index + 1) active--
+            if (active === index + 1) active--
             open = open.slice()
             open.splice(index, 1)
             return {...state, open, active}
@@ -38,7 +38,7 @@ export default function articlesReducer(state = initialState, action) {
         open[from] = open[to]
         open[to] = swap
         // устанавливаем новую активню вкладку
-        active = to = 1
+        active = to + 1
         return {...state, open, active}
     default:
         return state;
