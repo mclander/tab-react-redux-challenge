@@ -47,7 +47,7 @@ export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Статья') 
 export const articles = makeData()
 export const active = 0 // не запоминаем активную вкладку в сессии
 export const indexes = _.fromPairs(_.map(articles, (x, i) => [x.id, i]))
-export const open = store.session.get(STORE_KEY('open'), []).filter(x => x in indexes) // запоминаем вкладки с сессии 
+export const open = (_.castArray(store.session.get(STORE_KEY('open'), []))).filter(x => x in indexes) // запоминаем вкладки с сессии 
 
 export const initial ={
     articles,

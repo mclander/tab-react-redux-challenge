@@ -2,10 +2,14 @@ import React, {Component} from 'react'
 import { Tabs, DragTabList, Tab, DragTab, PanelList, Panel } from 'react-tabtab'
 import { connect } from 'react-redux'
 import { openOrSelectArticle,  closeArticle, swapArticleIndexes } from '../actions/article-actions'
-import { ArticleContent } from './article-content'
 import { ArticleList } from './article-list'
+import asyncComponent from '../utils/async-component'
 
 const LINK_BASE = '/article'
+
+const ArticleContent = asyncComponent(() =>
+    import('./article-content').then(module => module.default)
+)
 
 export class TabArea extends Component {
     
