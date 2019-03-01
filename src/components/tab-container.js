@@ -1,91 +1,91 @@
-import React, {Component} from 'react';
-import {Tabs, DragTabList, Tab, DragTab, PanelList, Panel} from 'react-tabtab';
-// import Plus from 'react-icons/lib/fa/plus';
-//mport {simpleSwitch} from '../../src/helpers/move';
+import React, {Component} from 'react'
+import { Tabs, DragTabList, Tab, DragTab, PanelList, Panel } from 'react-tabtab'
+import { connect } from 'react-redux'
+import { openOrSelectArticle,  closeArticle, swapArticleIndexes } from '../actions/article-actions'
+import { ArticleContent } from './article-content'
+import { ArticleList } from './article-list'
 
-import {arrayMove as simpleSwitch} from 'react-sortable-hoc';
-import {makeData} from '../reducers/initial-state';
+const LINK_BASE = '/article'
 
-
-export default class TabContainer extends Component {
-  constructor(props) {
-    super(props);
-    console.warn(props)
-    const tabs = makeData(10, 'Drag');
-
-    this.state = {
-      tabs,
-      activeIndex: 0,
-      numberOfTabs: tabs.length,
-    };
-  }
-
- 
-  handleTabChange = index => {
-    this.setState({activeIndex: index});
-  }
-
-  handleTabSequenceChange = ({oldIndex, newIndex}) => {
-    const {tabs} = this.state;
-    const updateTabs = simpleSwitch(tabs, oldIndex, newIndex);
-    this.setState({tabs: updateTabs, activeIndex: newIndex});
-  }
-
-  handleEdit = ({type, index}) => {
-    this.setState((state) => {
-      let {tabs, activeIndex} = state;
-      if (type === 'delete') {
-        tabs = [...tabs.slice(0, index), ...tabs.slice(index + 1)];
-      }
-      if (index - 1 >= 0) {
-        activeIndex = index - 1;
-      } else {
-        activeIndex = 0;
-      }
-      return {tabs, activeIndex};
-    });
-  }
-
-  handleChangeTabsNumber = e => {
-    let number = e.target.value;
-    if (number <= 0 || !number) {
-      number = 1;
+export class TabArea extends Component {
+    
+    componentDidMount(...args) {
+        this.props.dispatch(openOrSelectArticle(this.props.articleId))
+        
     }
-    if (number > 3000) {
-      number = 3000;
+
+    componentWillUpdate(nextProps) {
+        // console.log('componentWillUpdate', nextProps, this.props)
+        if (nextProps.articleId !== this.props.articleId)
+            this.props.dispatch(openOrSelectArticle(nextProps.articleId)) 
     }
-    const tabs = makeData(number, 'Drag');
-    this.setState({tabs, activeIndex: 0, numberOfTabs: number});
-  }
 
 
-  render() {
-    const {tabs, activeIndex, numberOfTabs, showArrow, showModal, showExtra} = this.state;
-    const tabTemplate = [<Tab key={-1}>Article List</Tab>];
-    const panelTemplate = [<Panel key={-1}>List:</Panel>];
-    tabs.forEach((tab, i) => {
-      const closable = tabs.length > 1;
-      tabTemplate.push(<DragTab key={i} closable={closable}>{tab.title}</DragTab>);
-      panelTemplate.push(<Panel key={i}>{tab.content}</Panel>);
-    })
+    handleTabChange = index => {
+        // На DragArea не действует ссылка
+        if (index) { 
+            const id = this.props.store.open[index-1]
+            this.props.history.push(`${LINK_BASE}/${id}`)
+        }  else {
+            this.props.history.push('/')
+        }
+    }
 
-    return (
-      <div>
-        <Tabs onTabEdit={this.handleEdit}
-              onTabChange={this.handleTabChange}
-              activeIndex={activeIndex}
-              customStyle={this.props.customStyle}
-              onTabSequenceChange={this.handleTabSequenceChange}
-              showArrowButton={showArrow}
-        >
-          <DragTabList>
-            {tabTemplate}
-          </DragTabList>
-          <PanelList>
-            {panelTemplate}
-          </PanelList>
-        </Tabs>
-      </div>
-    )
+    handleTabSequenceChange = ({oldIndex, newIndex}) => {
+        // console.log({oldIndex, newIndex})
+        if (newIndex) { // блокируем возможность перемещать вкладку со статьями
+            const id = this.props.store.open[oldIndex - 1]
+            // console.warn(id)
+            this.props.dispatch(swapArticleIndexes(oldIndex - 1 , newIndex - 1))
+            this.props.history.push(`${LINK_BASE}/${id}`)
+        }
+    }
+
+    handleEdit = ({type, index}) => {
+        // console.log({type, index})
+        if (type === 'delete') {
+            // console.warn('delete', this.props.store.open[index - 1])
+            const id = index > 1 ? this.props.store.open[index - 2] : null
+            this.props.dispatch(closeArticle(this.props.store.open[index - 1]))
+            this.props.history.push(id ? `${LINK_BASE}/${id}` : '/')
+        }
+    }
+
+    render() {
+        const {store} = this.props 
+        const tabTemplate = [<Tab key={-1} closable={false}>Список статей</Tab>];
+        const panelTemplate = [
+            <Panel key={-1}>
+                <ArticleList articles={this.props.store.articles} linkBase={LINK_BASE} />
+            </Panel>
+        ];
+        store.open.forEach((id, i) => {
+            const tab = store.articles[store.indexes[id]]
+            tabTemplate.push(<DragTab key={i} closable={true}>{tab.title}</DragTab>);
+            panelTemplate.push(<Panel key={i}><ArticleContent content={tab.content} /></Panel>);
+        })
+
+        return (
+            <div>
+            <Tabs onTabEdit={this.handleEdit}
+                    onTabChange={this.handleTabChange}
+                    activeIndex={store.active}
+                    customStyle={this.props.customStyle}
+                    onTabSequenceChange={this.handleTabSequenceChange}
+                    showArrowButton={!false}
+            >
+                <DragTabList>
+                {tabTemplate}
+                </DragTabList>
+                <PanelList>
+                {panelTemplate}
+                </PanelList>
+            </Tabs>
+            </div>
+        )
   }
 }
+
+export default connect(
+    state=>({store: state['atricles'] })
+)(TabArea)

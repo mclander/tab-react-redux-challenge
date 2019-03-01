@@ -15,3 +15,9 @@ export const swapArticleIndexes  = (from, to) => ({
     from,
     to
 })
+
+export default {
+    openOrSelectArticle,
+    closeArticle,
+    swapArticleIndexes
+}
