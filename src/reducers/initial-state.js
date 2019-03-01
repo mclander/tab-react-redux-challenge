@@ -2,23 +2,42 @@ import React from 'react'
 import * as _ from 'lodash'
 import store from "store2"
 import {STORE_KEY} from '../constants'
+import translit from 'translit-rus-eng'
 
 const ARTICLES_TOTAL = 42 // donn't ask me why !
 
-export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Article') => {
+export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Статья') => {
     const data = []
-    // const lines = 2 + Math.floor(10 * Math.random()) 
     for (let i = 1; i <= number; i++) {
         const title = `${titlePrefix} ${i}` 
         data.push({
-            id: `${i}-${_.kebabCase(title)}`,
+            id: `${i}-${_.snakeCase(translit(title))}`,
             title,
             content:
                 <div>
                     <h2>{title}</h2>
-                    Content {i}: Accusamus enim nisi itaque voluptas nesciunt repudiandae velit. <br/>
-                    Ad molestiae magni quidem saepe et quia voluptatibus minima. <br/>
-                    Omnis autem distinctio tempore. Qui omnis eum illum adipisci ab. <br/>
+
+                    <h3> tab-react-redux-challenge</h3>
+
+                    Тестовое задание. Текст и "адресат" задания скрыты для усложнения жизни другим тестируемым.<p />
+
+                    Основной проект стырен из lazy-loading-routes, так же остались следы заимсвований из react-slingshot и react-starter-kit <p />
+
+                    <h3>Немного пояснений</h3>
+
+                    Я использую в своей работе нотацию без точки с запятой (;), хоть это не очень распространённая 
+                    нотация. Плюсом этой нотации идёт то, что видно что и где я творчески обработал из творчески
+                    заимствованного кода.<p />
+
+                    В этом проекте я использую kebab названия файлов (из чистого хулиганства, плюс мне 
+                    нравится видеть имена файлов в этой нотации во вкладках редактора больше) <p/>
+
+                    Я знаю, что lodash сильно утяжелит проект, но использую его внаглую, потому, что оптимизировать размер
+                    можно разными способами и "потом"<p />
+
+                    <h3> Вот, блин, поворот</h3>
+
+                    В библиотеке react-tabtab есть ошибка с закрытием вкладок, чтобы закрыть вкладку надо кликать на самый верх квадратика с крестиком. Думаю, разберусь с этим позже
                 </div>
         })
   }
@@ -26,9 +45,9 @@ export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Article') => {
 }
 
 export const articles = makeData()
-export const open = store.session.get(STORE_KEY('open'), []) // запоминаем вкладки с сессии 
 export const active = 0 // не запоминаем активную вкладку в сессии
 export const indexes = _.fromPairs(_.map(articles, (x, i) => [x.id, i]))
+export const open = store.session.get(STORE_KEY('open'), []).filter(x => x in indexes) // запоминаем вкладки с сессии 
 
 export const initial ={
     articles,
