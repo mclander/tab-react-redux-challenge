@@ -5,7 +5,8 @@ import { openOrSelectArticle,  closeArticle, swapArticleIndexes } from '../actio
 import { ArticleList } from './article-list'
 import asyncComponent from '../utils/async-component'
 
-const LINK_BASE = '/article'
+const PATH_BASE = '/'
+const LINK_BASE = `${PATH_BASE}article`
 
 const ArticleContent = asyncComponent(() =>
     import('./article-content').then(module => module.default)
@@ -24,14 +25,14 @@ export class TabArea extends Component {
             this.props.dispatch(openOrSelectArticle(nextProps.articleId)) 
     }
 
-
+    // #WARN не забываем, что индекс вкладки отличается от индекса в store.open на 1 
     handleTabChange = index => {
         // На DragArea не действует ссылка
         if (index) { 
             const id = this.props.store.open[index-1]
             this.props.history.push(`${LINK_BASE}/${id}`)
         }  else {
-            this.props.history.push('/')
+            this.props.history.push(PATH_BASE)
         }
     }
 
@@ -48,10 +49,15 @@ export class TabArea extends Component {
     handleEdit = ({type, index}) => {
         // console.log({type, index})
         if (type === 'delete') {
+
+            // При удалении используем следующий алгоритм - активной становится следующая вкладка, если она есть
+            // при отсутствии следующей предыдущаяя (не забываем о смещении на -1)
             // console.warn('delete', this.props.store.open[index - 1])
-            const id = index > 1 ? this.props.store.open[index - 2] : null
+            const id = index < this.props.store.open.length ? this.props.store.open[index] :  
+                       index > 1 ? this.props.store.open[index - 2] : 
+                       null
             this.props.dispatch(closeArticle(this.props.store.open[index - 1]))
-            this.props.history.push(id ? `${LINK_BASE}/${id}` : '/')
+            this.props.history.push(id ? `${LINK_BASE}/${id}` : PATH_BASE)
         }
     }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux' 
 
 import './app.css';
@@ -7,14 +7,6 @@ import WorkPlace from './components/work-place'
 import NotFound from './components/not-found'
 import createStore from './store/configure-store'
 const store = createStore()
-
-///import createBrowserHistory from 'history/createBrowserHistory';
-// import asyncComponent from './AsyncComponent'
-
-// const Blog = asyncComponent(() =>
-//    import('./Blog/Blog').then(module => module.default)
-// )
-
 
 class App extends Component {
     render () {

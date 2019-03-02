@@ -17,9 +17,9 @@ export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Статья') 
         data.push({
             id: `${i}-${snakeCase(translit(title))}`,
             title,
-            content:
+            content: `
                 <div>
-                    <h2>{title}</h2>
+                    <h2>${title}</h2>
 
                     <h3> tab-react-redux-challenge</h3>
 
@@ -48,7 +48,7 @@ export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Статья') 
                     Причесать стили, пофиксить react-tabtab, сделать eject проекту, чтобы формально 
                     выполнить условие про webpack, сократить влияние лодаша<p /> 
                 
-                </div>
+                </div>`
         })
   }
   return data
