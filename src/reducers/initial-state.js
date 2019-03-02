@@ -1,8 +1,12 @@
 import React from 'react'
-import * as _ from 'lodash'
 import store from "store2"
 import {STORE_KEY} from '../constants'
 import translit from 'translit-rus-eng'
+
+import snakeCase  from 'lodash/snakeCase'
+import fromPairs from 'lodash/fromPairs'
+import castArray from 'lodash/castArray'
+
 
 const ARTICLES_TOTAL = 42 // donn't ask me why !
 
@@ -11,7 +15,7 @@ export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Статья') 
     for (let i = 1; i <= number; i++) {
         const title = `${titlePrefix} ${i}` 
         data.push({
-            id: `${i}-${_.snakeCase(translit(title))}`,
+            id: `${i}-${snakeCase(translit(title))}`,
             title,
             content:
                 <div>
@@ -52,8 +56,8 @@ export const makeData = (number = ARTICLES_TOTAL, titlePrefix = 'Статья') 
 
 export const articles = makeData()
 export const active = 0 // не запоминаем активную вкладку в сессии
-export const indexes = _.fromPairs(_.map(articles, (x, i) => [x.id, i]))
-export const open = (_.castArray(store.session.get(STORE_KEY('open'), []))).filter(x => x in indexes) // запоминаем вкладки с сессии 
+export const indexes = fromPairs(articles.map((x, i) => [x.id, i]))
+export const open = (castArray(store.session.get(STORE_KEY('open'), []))).filter(x => x in indexes) // запоминаем вкладки с сессии 
 
 export const initial ={
     articles,

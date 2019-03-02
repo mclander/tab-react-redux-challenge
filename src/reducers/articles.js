@@ -3,8 +3,6 @@ import {STORE_KEY} from '../constants'
 import store from 'store2'
 import initialState from './initial-state'
 
-// import * as _ from 'lodash'
-
 export default function articlesReducer(state = initialState, action) {
     //console.log({state, action})
   let {active, open} = state

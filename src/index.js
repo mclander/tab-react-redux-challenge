@@ -11,7 +11,7 @@ require('bootstrap/dist/css/bootstrap.css')
 if (Object && !Object.assign) Object.assign = objectAssign
 
 // добавляем "в косноль" lodash (можно только для dev  версии)
-window._ = require('lodash')
+// window._ = require('lodash')
 
 
 ReactDOM.render( < App / > , document.getElementById('root'))
