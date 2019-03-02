@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux' 
 
-import './app.css';
+import './_app.css';
 import WorkPlace from './components/work-place'
 import NotFound from './components/not-found'
 import createStore from './store/configure-store'

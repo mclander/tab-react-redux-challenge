@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './app'
+import App from './_app'
 import objectAssign from 'object-assign'
 require('styled-components') 
 require('bootstrap/dist/css/bootstrap.css')
