@@ -4,6 +4,8 @@
 
 Основной проект стырен из lazy-loading-routes, так же остались следы заимсвований из react-slingshot и react-starter-kit
 
+Посмотреть можно здесь https://mclander.github.io/tab-react-redux-challenge/index.html
+
 # Немного пояснений
 
 Я использую в своей работе нотацию без точки с запятой (;), хоть это не очень распространённая 
