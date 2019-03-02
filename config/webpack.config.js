@@ -40,6 +40,8 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
+
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function(webpackEnv) {
@@ -64,6 +66,10 @@ module.exports = function(webpackEnv) {
     : isEnvDevelopment && '';
   // Get environment variables to inject into our app.
   const env = getClientEnvironment(publicUrl);
+  //console.log('kljkjjklj', env.stringified);
+  let defines = env.stringified ;
+  defines["JJJ"] = 'assadassda';
+  console.log('kljkjjklj',defines);
 
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -522,7 +528,7 @@ module.exports = function(webpackEnv) {
       // It is absolutely essential that NODE_ENV is set to production
       // during a production build.
       // Otherwise React will be compiled in the very slow development mode.
-      new webpack.DefinePlugin(env.stringified),
+      new webpack.DefinePlugin(defines),
       // This is necessary to emit hot updates (currently CSS only):
       isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
       // Watcher doesn't work well if you mistype casing in a path so we use
